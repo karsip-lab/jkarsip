@@ -1019,18 +1019,19 @@ function showResults(q){
 
     return `
       <div class="border border-gray-200 rounded-xl p-4 shadow-sm hover:border-blue-400 transition">
-        <div class="breadcrumb mb-1 break-words">
+        <!-- Di sini margin-bottom dihilangkan (mb-0) supaya tulisan breadcrumb rapat ke kode -->
+        <div class="breadcrumb mb-0 break-words">
           ${makeBreadcrumb(i.KODE_KLASIFIKASI)}
         </div>
         <div class="font-mono text-blue-700 font-bold text-base sm:text-lg break-words">
           ${i.KODE_KLASIFIKASI || "-"}
         </div>
-        <div class="mt-1 text-sm sm:text-base font-medium text-slate-700">
+        <div class="mt-0.5 text-sm sm:text-base font-medium text-slate-700">
           ${i.URAIAN || "-"}
         </div>
 
-        <!-- Tampilan Keterangan JRA (Aktif, Inaktif, Nasib Akhir) -->
-        <div class="mt-3 pt-2 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+        <!-- Di sini margin-top & padding-top dibuat minim (mt-1 pt-1) supaya informasi JRA lebih rapat ke atas -->
+        <div class="mt-1 pt-1 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-1 text-xs sm:text-sm">
           <div>
             <span class="text-gray-500 block font-normal">Aktif:</span>
             <span class="font-semibold text-slate-800">${aktif}</span>
