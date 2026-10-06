@@ -1021,14 +1021,14 @@ function showResults(q){
       <div class="border border-gray-200 rounded-xl p-4 shadow-sm hover:border-blue-400 transition">
         <!-- Di sini margin-bottom dihilangkan (mb-0) supaya tulisan breadcrumb rapat ke kode -->
         <div class="breadcrumb mb-0 break-words">
-          ${makeBreadcrumb(i.KODE_KLASIFIKASI)}
-        </div>
-        <div class="font-mono text-blue-700 font-bold text-base sm:text-lg break-words">
-          ${i.KODE_KLASIFIKASI || "-"}
-        </div>
-        <div class="mt-0.5 text-sm sm:text-base font-medium text-slate-700">
-          ${i.URAIAN || "-"}
-        </div>
+  ${makeBreadcrumb(i.KODE_KLASIFIKASI)}
+</div>
+<div class="font-mono text-blue-700 font-bold text-base sm:text-lg break-words leading-tight">
+  ${i.KODE_KLASIFIKASI || "-"}
+</div>
+<div class="-mt-1 text-sm sm:text-base font-medium text-slate-700 leading-snug">
+  ${i.URAIAN || "-"}
+</div>
 
         <!-- Di sini margin-top & padding-top dibuat minim (mt-1 pt-1) supaya informasi JRA lebih rapat ke atas -->
         <div class="mt-1 pt-1 border-t border-gray-100 flex flex-col gap-1" style="font-size: 14px; line-height: 14px;">
