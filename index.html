@@ -46,7 +46,6 @@ animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 
-
 <style>
 /*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
 @layer properties;
@@ -804,7 +803,6 @@ animation:spin .8s linear infinite}
     }
   }
 }
-
 </style>
 
 <style>
@@ -815,10 +813,10 @@ body{line-height:inherit;margin:0;font-family:'Inter',sans-serif}
 /* 2. Layout & Container */
 .container{width:100%;margin-right:auto;margin-left:auto;padding-right:1rem;padding-left:1rem}
 .flex{display:flex}
-.flex-col{flex-direction:column} /* Default: susun ke bawah (untuk HP) */
+.flex-col{flex-direction:column}
 .flex-grow{flex-grow:1}
 .items-stretch{align-items:stretch}
-.gap-2{gap:0.5rem} /* Jarak antar elemen */
+.gap-2{gap:0.5rem}
 .hidden{display:none}
 .min-h-screen{min-height:100vh}
 .relative{position:relative}
@@ -852,14 +850,12 @@ body{line-height:inherit;margin:0;font-family:'Inter',sans-serif}
 .loader{border:3px solid #f3f3f3;border-top:3px solid #3b82f6;border-radius:50%;width:24px;height:24px;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* === BAGIAN PENTING YANG HILANG KEMARIN === */
-/* Ini mengatur tampilan saat layar lebar (Tablet/Laptop) */
 @media (min-width: 640px) {
   .container{max-width:640px}
   .sm\:max-w-3xl{max-width:48rem}
-  .sm\:flex-row{flex-direction:row} /* <-- Ini kuncinya: Biar sejajar ke samping */
+  .sm\:flex-row{flex-direction:row}
   .sm\:items-center{align-items:center}
-  .sm\:w-auto{width:auto} /* <-- Biar tombol tidak memanjang penuh */
+  .sm\:w-auto{width:auto}
   .sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}
   .sm\:py-3{padding-top:0.75rem;padding-bottom:0.75rem}
   .sm\:py-10{padding-top:2.5rem;padding-bottom:2.5rem}
@@ -880,12 +876,9 @@ body{line-height:inherit;margin:0;font-family:'Inter',sans-serif}
   font-size: 13px;
   color: #6b7280;
   font-family: ui-monospace, monospace;
-  font-weight: 600px;
+  font-weight: 600;
 }
-
-
 </style>
-
 
 </head>
 
@@ -893,20 +886,14 @@ body{line-height:inherit;margin:0;font-family:'Inter',sans-serif}
 
 <header class="bg-slate-900 text-white py-8 sm:py-10 shadow-lg relative">
   <div class="container mx-auto px-4 text-center">
-    
+    <div class="text-3xl sm:text-4xl font-extrabold italic">
+      <span class="text-blue-500">K</span><span class="text-red-500">A</span>rsip
+    </div>
 
-
-<div class="text-3xl sm:text-4xl font-extrabold italic">
-  <span class="text-blue-500">K</span><span class="text-red-500">A</span>rsip
-</div>
-
-<h1 class="text-sm sm:text-base md:text-lg font-medium text-slate-300 mt-1">
-  Kode Klasifikasi Arsip Pemerintah Daerah
-</h1>
-  
-
-
-</div>
+    <h1 class="text-sm sm:text-base md:text-lg font-medium text-slate-300 mt-1">
+      Kode Klasifikasi Arsip Pemerintah Daerah
+    </h1>
+  </div>
 
   <nav class="mt-4 flex justify-center gap-6 sm:absolute sm:top-6 sm:left-6 sm:mt-0 text-sm font-semibold">
     <a href="index.html">Home</a>
@@ -929,12 +916,11 @@ body{line-height:inherit;margin:0;font-family:'Inter',sans-serif}
       </button>
     </form>
 
-<section class="text-sm text-gray-700 mt-4 text-center">
-  <p>
-    Cari kode klasifikasi arsip pemerintah daerah dengan cepat.
-  </p>
-</section>
-
+    <section class="text-sm text-gray-700 mt-4 text-center">
+      <p>
+        Cari kode klasifikasi arsip pemerintah daerah dengan cepat.
+      </p>
+    </section>
 
     <div id="home-loader" class="hidden mt-6 flex justify-center">
       <div class="loader mx-auto"></div>
@@ -982,6 +968,7 @@ function performSearch(q){
       ${i.KODE_KLASIFIKASI||""}
       ${i.URAIAN||""}
       ${i.KEYWORD||""}
+      ${i.JRA||""}
     `.toLowerCase();
     const words = text.match(/[\w.]+/g) || [];
     return terms.every(term => words.some(w => w.startsWith(term)));
@@ -990,17 +977,14 @@ function performSearch(q){
 
 // Breadcrumb (Hanya menampilkan Kode Sekunder beserta Uraiannya jika level > 2)
 function makeBreadcrumb(kode){
+  if (!kode) return "";
   const parts = kode.split(".");
   
-  // Jika level <= 2 (contoh: '800' atau '800.1'), tidak perlu tampilkan breadcrumb
   if (parts.length <= 2) {
     return "";
   }
 
-  // Ambil hanya kode sekunder (contoh: '800.1')
   const sekunderKode = `${parts[0]}.${parts[1]}`;
-
-  // Cari item dengan kode sekunder tersebut di archiveData untuk mendapatkan Uraiannya
   const parentItem = archiveData.find(item => item.KODE_KLASIFIKASI === sekunderKode);
   const sekunderUraian = parentItem ? parentItem.URAIAN : "";
 
@@ -1021,19 +1005,49 @@ function showResults(q){
     info.innerHTML = `Tidak ditemukan hasil untuk <b>${q}</b>`;
   }
 
-  c.innerHTML = data.map(i=>`
-    <div class="border border-gray-200 rounded-xl p-4 shadow-sm hover:border-blue-400 transition">
-      <div class="breadcrumb mb-1 break-words">
-        ${makeBreadcrumb(i.KODE_KLASIFIKASI)}
+  c.innerHTML = data.map(i => {
+    // Ambil string JRA dari Google Sheets
+    const jraRaw = i.JRA || "";
+    
+    // Pecah string berdasarkan tanda koma
+    const jraParts = jraRaw.split(",").map(item => item.trim());
+
+    // Ambil masing-masing komponen JRA
+    const aktif = jraParts[0] || "-";
+    const inaktif = jraParts[1] || "-";
+    const nasibAkhir = jraParts[2] || "-";
+
+    return `
+      <div class="border border-gray-200 rounded-xl p-4 shadow-sm hover:border-blue-400 transition">
+        <div class="breadcrumb mb-1 break-words">
+          ${makeBreadcrumb(i.KODE_KLASIFIKASI)}
+        </div>
+        <div class="font-mono text-blue-700 font-bold text-base sm:text-lg break-words">
+          ${i.KODE_KLASIFIKASI || "-"}
+        </div>
+        <div class="mt-1 text-sm sm:text-base font-medium text-slate-700">
+          ${i.URAIAN || "-"}
+        </div>
+
+        <!-- Tampilan Keterangan JRA (Aktif, Inaktif, Nasib Akhir) -->
+        <div class="mt-3 pt-2 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+          <div>
+            <span class="text-gray-500 block font-normal">Aktif:</span>
+            <span class="font-semibold text-slate-800">${aktif}</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block font-normal">Inaktif:</span>
+            <span class="font-semibold text-slate-800">${inaktif}</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block font-normal">Nasib Akhir:</span>
+            <span class="font-semibold text-slate-800">${nasibAkhir}</span>
+          </div>
+        </div>
+
       </div>
-      <div class="font-mono text-blue-700 font-bold text-base sm:text-lg break-words">
-        ${i.KODE_KLASIFIKASI}
-      </div>
-      <div class="mt-1 text-sm sm:text-base font-medium text-slate-700">
-        ${i.URAIAN}
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 // Event search
