@@ -1010,7 +1010,7 @@ function showResults(q){
     const jraRaw = i.JRA || "";
     
     // Pecah string berdasarkan tanda koma
-    const jraParts = jraRaw.split(",").map(item => item.trim());
+    const jraParts = jraRaw.split(";").map(item => item.trim());
 
     // Ambil masing-masing komponen JRA
     const aktif = jraParts[0] || "-";
