@@ -962,7 +962,7 @@ function loadData() {
 // Fungsi pencarian
 // =====================
 function performSearch(q){
-  const terms = q.toLowerCase().split(" ");
+  const terms = q.toLowerCase().trim().split(/\s+/);
   return archiveData.filter(i=>{
     const text = `
       ${i.KODE_KLASIFIKASI||""}
@@ -970,8 +970,8 @@ function performSearch(q){
       ${i.KEYWORD||""}
       ${i.JRA||""}
     `.toLowerCase();
-    const words = text.match(/[\w.]+/g) || [];
-    return terms.every(term => words.some(w => w.startsWith(term)));
+    // Langsung cek apakah teks mengandung kata yang dicari beserta tanda bacanya
+    return terms.every(term => text.includes(term));
   }).slice(0,50);
 }
 
